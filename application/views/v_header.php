@@ -12,13 +12,14 @@ $ci =& get_instance();
         <link href="<?echo site_url();?>bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
         <link href="<?echo site_url();?>bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
         <link href="<?echo site_url();?>assets/styles.css" rel="stylesheet" media="screen">
-        <link href="<?echo site_url();?>assets/styles_atom.css" rel="stylesheet" media="screen">
+        
         <link href="<?echo site_url();?>assets/DT_bootstrap.css" rel="stylesheet" media="screen">
         <link href="<?echo site_url();?>assets/jquery.mCustomScrollbar.css" rel="stylesheet" media="screen">
 
         <link href="<?echo site_url();?>assets/css/jquery-ui.css" rel="stylesheet" />
         <link href="<?echo site_url();?>assets/css/jquery.datetimepicker.css" rel="stylesheet" />
         <link href="<?echo site_url();?>css/jquery.fancybox.css" rel="stylesheet" />
+        <link href="<?echo site_url();?>assets/styles_atom.css" rel="stylesheet" media="screen">
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
             <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>

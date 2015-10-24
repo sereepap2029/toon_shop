@@ -15,7 +15,7 @@ $ci =& get_instance();
                                 <div class="muted pull-left">Add Sub Category </div>
                             </div>
                             <div class="block-content collapse in">
-                                <div class="span12">
+                                <div class="span12" style="height:768px">
                                   <h5> <?if (isset($err_msg)) {
                                         echo "*******".$err_msg."*******";
                                     }?></h5>

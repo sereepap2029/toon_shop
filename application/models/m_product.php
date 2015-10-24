@@ -55,11 +55,19 @@ class M_product extends CI_Model {
 		$this->db->where('id', $id);
 		$this->db->update('product_photo', $data);
 	}
-	function get_all_product(){
+	function get_all_product($main_cat="all",$sub_cat="all"){
 		$g_list = array();
 		$this->db->order_by("product_name", "asc"); 
-		$query = $this->db->get('product');
+		if ($main_cat!="all") {
+			$this->db->where('main_cat', $main_cat);
+		}
+		if ($sub_cat!="all") {
+			$this->db->where('sub_cat', $sub_cat);
+		}
+
 		
+		$query = $this->db->get('product');
+
 		if ($query->num_rows() > 0) {
 			$g_list = $query->result();
 			foreach ($g_list as $key => $value) {

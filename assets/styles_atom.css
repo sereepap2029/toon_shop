@@ -87,3 +87,36 @@ table.orange th{
 input{color:blue!important;}
 input[disabled]{color:red!important;}
 textarea{color:blue!important;}
+.shop-category,.shop-subcategory{
+  list-style-type:none;
+}
+.shop-subcategory.hide{
+  display: none;
+}
+.shop-subcategory.show{
+  display: block;
+}
+
+.product-item{
+    position: relative;
+    display: inline-block;
+    width:150px;    
+    margin: 10px;
+    float: left;
+  }
+  .product-item img{
+    width:100%;  
+  }
+  .product-item .product-name{
+    font-size: 20px;
+  }
+  .product-item .btn-success{
+    position: absolute;
+    top:0px;
+    left: 0px;
+  }
+  .product-item .btn-danger{
+    position: absolute;
+    top:0px;
+    right: 0px;
+  }

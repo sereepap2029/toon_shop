@@ -5,28 +5,6 @@ $ci =& get_instance();
 <script src="<?echo site_url();?>js/angular/core.js"></script>
 <script src="<?echo site_url();?>js/angular/product_list.js"></script>
 <style type="text/css">
-  .product-item{
-    position: relative;
-    display: inline-block;
-    width:150px;    
-    margin: 10px;
-  }
-  .product-item img{
-    width:100%;  
-  }
-  .product-item .product-name{
-    font-size: 20px;
-  }
-  .product-item .btn-success{
-    position: absolute;
-    top:0px;
-    left: 0px;
-  }
-  .product-item .btn-danger{
-    position: absolute;
-    top:0px;
-    right: 0px;
-  }
 </style>
 <div class="container-fluid" ng-app="productapp">
             <div class="row-fluid">                
@@ -54,7 +32,7 @@ $ci =& get_instance();
                                                       <?
                                                       foreach ($category as $key => $value) {
                                                         ?>
-                                                        <option value="<?=$value->id?>"><?=$value->name?></option> 
+                                                        <option value="__<?=$value->id?>"><?=$value->name?></option> 
                                                           <?
                                                           foreach ($value->sub_cat as $key2 => $value2) {
                                                             ?>

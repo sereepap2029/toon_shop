@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50702
 File Encoding         : 65001
 
-Date: 2015-10-09 20:13:23
+Date: 2015-10-24 14:29:12
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,6 +28,27 @@ CREATE TABLE `category` (
 -- Records of category
 -- ----------------------------
 INSERT INTO `category` VALUES ('4', 'Food');
+
+-- ----------------------------
+-- Table structure for `member`
+-- ----------------------------
+DROP TABLE IF EXISTS `member`;
+CREATE TABLE `member` (
+  `username` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `password` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `firstname` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `lastname` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `last_access` bigint(11) DEFAULT NULL,
+  `email` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `phone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of member
+-- ----------------------------
+INSERT INTO `member` VALUES ('sereepap1001', '827ccb0eea8a706c4c34a16891f84e7b', 'Sereepap', 'Khamsee', null, 'sereepap2029@gmail.com', '0804032819');
+INSERT INTO `member` VALUES ('sereepap2029', '827ccb0eea8a706c4c34a16891f84e7b', 'Sereepap', 'Khamsee', null, 'sereepap2029@hotmail.com', '232123212');
 
 -- ----------------------------
 -- Table structure for `product`

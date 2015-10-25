@@ -9,10 +9,23 @@ $ci =& get_instance();
 </style>
 <script src="<?echo site_url();?>js/angular.min.js"></script>
 <script src="<?echo site_url();?>js/angular/core.js"></script>
+<script src="<?echo site_url();?>js/jquery.matchHeight.js"></script>
 <script type="text/javascript">
   var productapp = angular.module('productapp', []);
-
-productapp.controller('productlistctrl', function ($scope) {
+productapp.directive('equalHeight', function() {
+  return function(scope, element, attrs) {
+    if (scope.$last){
+      //$(".product-item").equalHeights();
+      $(".product-item").matchHeight({
+              byRow: false,
+              property: 'height',
+              target: null,
+              remove: false
+          });
+    }
+  };
+});
+productapp.controller('productlistctrl', function ($scope,$http) {
   $scope.product_list= {};
   $.ajax({
         method: "POST",
@@ -28,6 +41,18 @@ productapp.controller('productlistctrl', function ($scope) {
         
      });
     console.log($scope.product_list);
+    $scope.get_product = function(main_cat,sub_cat) {
+      $http.post(site_url("shop/ang_get_product_list"), {
+            "main_cat":main_cat,
+              "sub_cat":sub_cat,
+        }).
+        success(function(data, status, headers) {
+           $scope.product_list=data['products'];
+        }).
+        error(function(data, status, headers) {
+            alert(headers);
+        });
+    }
 });
 </script>
 <div class="container-fluid" ng-app="productapp">
@@ -36,14 +61,17 @@ productapp.controller('productlistctrl', function ($scope) {
 
                      <div class="row-fluid">
                         <!-- block -->
-                        <div class="block">
+                        <div class="block" ng-controller="productlistctrl">
                             <div class="span4 shop-side no-margin-left">
                               <ul class="shop-category">
+                              <li class="shop-main-cat">
+                                      <a href="javascript:;" ng-click="get_product('all','all')">ทั้งหมด</a>
+                                </li>
                                 <?
                                 foreach ($category as $key => $value) {
                                   ?>
                                     <li class="shop-main-cat">
-                                      <a href="<?echo site_url();?>"><?=$value->name?></a>
+                                      <a href="javascript:;" ng-click="get_product('<?=$value->id?>','all')"><?=$value->name?></a>
                                       <?
                                       if (count($value->sub_cat)>0) {
                                         ?>
@@ -53,7 +81,7 @@ productapp.controller('productlistctrl', function ($scope) {
                                         foreach ($value->sub_cat as $sub_key => $sub_value) {
                                           ?>
                                           <li class="shop-sub-cat">
-                                            <a href="<?echo site_url();?>"><?=$sub_value->name?></a>
+                                            <a href="javascript:;" ng-click="get_product('<?=$value->id?>','<?=$sub_value->id?>')"><?=$sub_value->name?></a>
                                           </li>
 
                                           <?
@@ -81,8 +109,8 @@ productapp.controller('productlistctrl', function ($scope) {
                                          Search: <input ng-model="query.product_name">
                                       </div>                                       
                                    </div>
-                                   <div ng-controller="productlistctrl">
-                                      <div class="product-item" ng-repeat="(key, value) in product_list | filter:query track by value.product_id" ng-switch on="value.in_stock">
+                                   <div>
+                                      <div class="product-item" ng-repeat="(key, value) in product_list | filter:query track by value.product_id" ng-switch on="value.in_stock" equal-height>
                                           <img src="<?echo site_url("media/product_photo");?>/{{value.product_id}}/{{value.photo[0].filename}}">
                                           <label class="product-name">{{value.product_name}}</label>
                                           <p>
@@ -126,6 +154,7 @@ productapp.controller('productlistctrl', function ($scope) {
           $(".chzn-select").chosen({
               width: "75%"
           });
+          
         });
         </script>
 

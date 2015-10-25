@@ -1,5 +1,16 @@
 var productapp = angular.module('productapp', []);
-
+productapp.directive('equalHeight', function() {
+  return function(scope, element, attrs) {
+    if (scope.$last){
+      $(".product-item").matchHeight({
+              byRow: false,
+              property: 'height',
+              target: null,
+              remove: false
+          });
+    }
+  };
+});
 productapp.controller('productlistctrl', function ($scope) {
 	$scope.product_list= {};
 	$.ajax({

@@ -51,7 +51,14 @@ class Shop extends CI_Controller {
 	public function ang_get_product_list(){
 		header('Content-Type: application/json');
 		$json = array();
-		$json['products']=$this->m_product->get_all_product($_POST['main_cat'],$_POST['sub_cat']);
+		if (isset($_POST['main_cat'])) {
+			$json['products']=$this->m_product->get_all_product($_POST['main_cat'],$_POST['sub_cat']);
+		}else{
+			$postdata = file_get_contents("php://input");
+ 			$request = json_decode($postdata);
+ 			$json['products']=$this->m_product->get_all_product($request->main_cat,$request->sub_cat);
+		}
+		
 		echo json_encode($json);
 	}
 }

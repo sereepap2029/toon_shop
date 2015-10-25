@@ -1,9 +1,11 @@
 <?
 $ci =& get_instance();
 ?>
+<script src="<?echo site_url();?>js/jquery.matchHeight.js"></script>
 <script src="<?echo site_url();?>js/angular.min.js"></script>
 <script src="<?echo site_url();?>js/angular/core.js"></script>
 <script src="<?echo site_url();?>js/angular/product_list.js"></script>
+
 <style type="text/css">
 </style>
 <div class="container-fluid" ng-app="productapp">
@@ -45,7 +47,7 @@ $ci =& get_instance();
                                       </div>                                     
                                    </div>
                                    <div ng-controller="productlistctrl">
-                                      <div class="product-item" ng-repeat="(key, value) in product_list | filter:query track by value.product_id" ng-switch on="value.in_stock">
+                                      <div class="product-item" ng-repeat="(key, value) in product_list | filter:query track by value.product_id" ng-switch on="value.in_stock" equal-height>
                                           <img src="<?echo site_url("media/product_photo");?>/{{value.product_id}}/{{value.photo[0].filename}}">
                                           <label class="product-name">{{value.product_name}}</label>
                                           <p>

@@ -62,11 +62,14 @@ $ci =& get_instance();
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a tabindex="-1" href="#">Profile</a>
+                                        <a tabindex="-1" href="<? echo site_url('member');?>">Profile</a>
+                                    </li>
+                                    <li>
+                                        <a tabindex="-1" href="<? echo site_url('member/cart');?>">Cart <i class="icon-shopping-cart"></i></a>
                                     </li>
                                     <li class="divider"></li>
                                     <li>
-                                        <a tabindex="-1" href="<? echo site_url('main/logout');?>">Logout</a>
+                                        <a tabindex="-1" href="<? echo site_url('member/logout');?>">Logout</a>
                                     </li>
                                 </ul>
                             </li>

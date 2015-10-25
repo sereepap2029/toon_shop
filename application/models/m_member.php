@@ -7,7 +7,7 @@ class M_member extends CI_Model {
 	}	
 	function get_user ($login_name,$password) {
 		$business = new stdClass();
-		$query = $this->db->get_where('member', array('username' => $login_name,'password' => $password));
+		$query = $this->db->get_where('member', array('username' => $login_name,'password' => md5($password)));
 		
 		if ($query->num_rows() > 0) {
 			$business = $query->result();

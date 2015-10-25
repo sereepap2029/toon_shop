@@ -31,21 +31,24 @@ class Member extends CI_Controller {
 		parent::__construct();
 		$this->load->model('m_member');		
 		$this->load->model('m_time');
-		$this->load->model('m_shop');
+		$this->load->model('m_cart');
+		$this->load->model('m_product');
+		$this->user_data=null;
 		$id=$this->uri->segment(2,'');
+		$prem_flag=$id!="register"&&$id!="login"&&$id!="check_valid_reg"&&$id!="additem_to_cart";
 		if ($this->session->userdata('username')) {
 			$user_data=$this->m_member->get_user_by_login_name($this->session->userdata('username'));
 			if (isset($user_data->username)) {
 				$this->user_data=$user_data;
 			}else{
 				
-				if ($id!="register"&&$id!="login"&&$id!="check_valid_reg") {
+				if ($prem_flag) {
 					redirect('member/login');
 				}
 				
 			}
 		}else{
-			if ($id!="register"&&$id!="login"&&$id!="check_valid_reg") {
+			if ($prem_flag) {
 					redirect('member/login');
 				}
 		}
@@ -53,16 +56,37 @@ class Member extends CI_Controller {
 	}
 	public function index()
 	{
-		$this->load->view('v_header');
+		$data_head['user_data']=$this->user_data;
+		$this->load->view('v_header',$data_head);
 		$this->load->view('member/v_profile');
 		$this->load->view('v_footer');
 	}
 	public function login()
 	{
 		if (isset($_POST['username'])) {
-			# code...
+			$user_data=$this->m_member->get_user($_POST['username'],$_POST['password']);
+			//echo $_POST['login_name']." asdasd ".$_POST['password'];
+			if (isset($user_data->username)) {
+				$this->session->set_userdata('username', $user_data->username);
+				$data2 = array(
+	               'last_access' => time()
+	            );
+
+				$this->db->where('username', $user_data->username);
+				$this->db->update('member', $data2); 
+				redirect('member');
+
+			}else{			
+				$data['error_msg2']='Please login with your username and password';
+				$data_head['user_data']=$this->user_data;
+				$this->load->view('v_header',$data_head);
+				$this->load->view('member/v_login',$data);
+				$this->load->view('v_footer');
+				$this->session->sess_destroy();
+			}			
 		}else{
-			$this->load->view('v_header');
+			$data_head['user_data']=$this->user_data;
+			$this->load->view('v_header',$data_head);
 			$this->load->view('member/v_login');
 			$this->load->view('v_footer');
 		}
@@ -82,17 +106,51 @@ class Member extends CI_Controller {
 			$this->m_member->add_member($data);
 			redirect('member/login');
 		}else{
-			$x=rand(1,1000);
-			$y=rand(1,1000);
+			$x=rand(1,100);
+			$y=rand(1,100);
 			$result = call_user_func_array($this->operators[array_rand($this->operators)], array($x, $y));
 			$this->session->set_userdata('capcha', $result['val']);
 			$data['cap_res']=$result;
 			$data['x']=$x;
 			$data['y']=$y;
-			$this->load->view('v_header');
+			$data_head['user_data']=$this->user_data;
+			$this->load->view('v_header',$data_head);
 			$this->load->view('member/v_register',$data);
 			$this->load->view('v_footer');
 		}
+	}
+
+	public function logout()
+	{		
+		$this->session->set_userdata('username', '');
+		$this->session->sess_destroy();
+		redirect('main');
+	}
+
+	////////////////////////////////////////ajax region /////////////////////////////
+	public function additem_to_cart()
+	{	
+		header('Content-Type: application/json');
+		$json = array();
+		$json['flag']="fail";
+		if (isset($this->user_data->username)) {
+			$product=$this->m_product->get_product_by_id($_POST['product_id']);
+			if (isset($product->product_name)) {
+				$dat = array(
+					'username' => $this->user_data->username, 
+					'product_id' => $_POST['product_id'], 
+					);
+				$this->m_cart->add_item($dat);
+
+				$json['flag']="OK";
+				$json['product_name']=$product->product_name;
+			}else{
+				$json['flag']="ไม่มี Product นี้อยู่";
+			}
+		}
+			
+
+		echo json_encode($json);
 	}
 
 	public function check_valid_reg()

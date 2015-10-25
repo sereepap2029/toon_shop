@@ -11,6 +11,7 @@ class Shop extends CI_Controller {
 		$this->load->model('m_shop');
 		$this->load->model('m_category');
 		$this->load->model('m_product');
+		$this->user_data=null;
 		if ($this->session->userdata('username')) {
 			$user_data=$this->m_member->get_user_by_login_name($this->session->userdata('username'));
 			if (isset($user_data->username)) {
@@ -29,7 +30,8 @@ class Shop extends CI_Controller {
 		}
 		$data['main_cat']=$data['category'][$tar_cat]->id;
 		$data['sub_cat']="all";
-		$this->load->view('v_header',$data);
+		$data_head['user_data']=$this->user_data;
+		$this->load->view('v_header',$data_head);
 		$this->load->view('v_shop',$data);
 		$this->load->view('v_footer');
 	}
@@ -43,7 +45,8 @@ class Shop extends CI_Controller {
 			$data['userdata']=$this->user_data;
 		}
 		
-		$this->load->view('v_header',$data);
+		$data_head['user_data']=$this->user_data;
+		$this->load->view('v_header',$data_head);
 		$this->load->view('v_shop',$data);
 		$this->load->view('v_footer');
 	}

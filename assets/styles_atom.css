@@ -104,6 +104,9 @@ textarea{color:blue!important;}
     margin: 10px;
     float: left;
   }
+  .product-item.hide{
+    display: none;
+  }
   .product-item img{
     width:100%;  
   }
@@ -119,4 +122,19 @@ textarea{color:blue!important;}
     position: absolute;
     top:0px;
     right: 0px;
+  }
+  .product-item .btn-warning{
+    position: absolute;
+    top:0px;
+    right: 0px;
+  }
+  .alert-popup{
+    position: absolute;
+    width: 150px;
+    right:10%;
+    top: 10%;
+    display: block;
+  }
+  .hide{
+    display: none;
   }

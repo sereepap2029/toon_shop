@@ -16,12 +16,14 @@ productapp.directive('equalHeight', function() {
   return function(scope, element, attrs) {
     if (scope.$last){
       //$(".product-item").equalHeights();
+      $(".product-item").removeClass("hide");
       $(".product-item").matchHeight({
               byRow: false,
               property: 'height',
               target: null,
               remove: false
           });
+
     }
   };
 });
@@ -41,7 +43,7 @@ productapp.controller('productlistctrl', function ($scope,$http) {
         
      });
     console.log($scope.product_list);
-    $scope.get_product = function(main_cat,sub_cat) {
+    $scope.get_product = function(main_cat,sub_cat) {      
       $http.post(site_url("shop/ang_get_product_list"), {
             "main_cat":main_cat,
               "sub_cat":sub_cat,
@@ -110,7 +112,7 @@ productapp.controller('productlistctrl', function ($scope,$http) {
                                       </div>                                       
                                    </div>
                                    <div>
-                                      <div class="product-item" ng-repeat="(key, value) in product_list | filter:query track by value.product_id" ng-switch on="value.in_stock" equal-height>
+                                      <div class="product-item hide" ng-repeat="(key, value) in product_list | filter:query track by value.product_id" ng-switch on="value.in_stock" equal-height>
                                           <img src="<?echo site_url("media/product_photo");?>/{{value.product_id}}/{{value.photo[0].filename}}">
                                           <label class="product-name">{{value.product_name}}</label>
                                           <p>
@@ -119,6 +121,7 @@ productapp.controller('productlistctrl', function ($scope,$http) {
                                             <font ng-switch-when="y">มีของ</font><font ng-switch-when="n">ไม่มีของ</font><br>
                                           </p>
                                           <a href="<?echo site_url("shop/product_detail");?>/{{value.product_id}}" class="btn btn-success"><i class="icon-list-alt icon-white"></i></a>                                          
+                                          <a href="javascript:;" id="{{value.product_id}}" class="btn btn-warning take"><i class="icon-white icon-shopping-cart"></i></a>
                                       </div>
                                    </div>
                                 </div>
@@ -129,8 +132,35 @@ productapp.controller('productlistctrl', function ($scope,$http) {
                 </div>
             </div>
         </div>
+        <div id="tar_pop" class="hide"></div>
         <!--/.fluid-container-->
         <script type="text/javascript">
+        $(document).on('click', ".take", function(){
+          var cur_ele=$(this);
+          $.ajax({
+              method: "POST",
+              url:site_url("member/additem_to_cart"),
+              async :true,
+              data: {
+                  "product_id":cur_ele.attr("id"),
+              }
+          })
+          .done(function(data) {
+              if (data['flag']=="OK") {
+                $("#tar_pop").after("<div class=\"alert-popup alert alert-info hide\">"+   
+                                    "<button class=\"close\" data-dismiss=\"alert\">×</button>เพิ่ม "+data['product_name']+" ลงในรถเข็นเรียบร้อยแล้ว"+
+                                    "</div>");
+                $(".alert-popup").fadeIn("slow",function(){
+                    $(".alert-popup").fadeOut(2000,function(){
+                      $(this).remove();
+                    });
+                });
+              }else{
+                alert(data['flag']);
+              }
+              
+           });
+        });
         $(document).on('click', ".toggle_show_sub", function(){
           //$( ".toggle_show_sub" ).removeClass("icon-chevron-down");
           //$( ".toggle_show_sub" ).addClass("icon-chevron-right");

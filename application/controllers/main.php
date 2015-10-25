@@ -9,6 +9,7 @@ class Main extends CI_Controller {
 		$this->load->model('m_member');		
 		$this->load->model('m_time');
 		$this->load->model('m_shop');
+		$this->user_data=null;
 		if ($this->session->userdata('username')) {
 			$user_data=$this->m_member->get_user_by_login_name($this->session->userdata('username'));
 			if (isset($user_data->username)) {
@@ -18,7 +19,8 @@ class Main extends CI_Controller {
 	}
 	public function index()
 	{
-		$this->load->view('v_header');
+		$data_head['user_data']=$this->user_data;
+		$this->load->view('v_header',$data_head);
 		$this->load->view('v_footer');
 	}
 }

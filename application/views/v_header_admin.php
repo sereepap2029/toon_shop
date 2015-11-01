@@ -62,7 +62,7 @@ $ci =& get_instance();
                                     </li>
                                     <li class="divider"></li>
                                     <li>
-                                        <a tabindex="-1" href="<? echo site_url('admin/logout');?>">Logout</a>
+                                        <a tabindex="-1" href="<? echo site_url('admin/main/logout');?>">Logout</a>
                                     </li>
                                 </ul>
                             </li>
@@ -110,6 +110,22 @@ $ci =& get_instance();
                                                 <a href="<? echo site_url('admin/product')?>">Product List</a>
                                             </li>
                                         </ul>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">ธนาคาร <b class="caret"></b>
+
+                                        </a>
+                                        <ul class="dropdown-menu" id="menu1">                                            
+                                            <li>
+                                                <a href="<? echo site_url('admin/bank/bank_add')?>">เพิ่ม บัญชี</a>
+                                            </li>
+                                            <li>
+                                                <a href="<? echo site_url('admin/bank')?>">รายการบัญชี</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="<? echo site_url('admin/order')?>">รายการการสั่งซื้อสินค้า</a>                                        
                                     </li>
                                 <?
                             }

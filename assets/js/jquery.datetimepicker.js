@@ -303,7 +303,7 @@
 		roundTime: 'round', // ceil, floor
 		className: '',
 		weekends: [],
-		yearOffset: 543,
+		yearOffset: 0,
 		beforeShowDay: null
 	};
 	// fix for ie8

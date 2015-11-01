@@ -138,3 +138,4 @@ textarea{color:blue!important;}
   .hide{
     display: none;
   }
+  .row-fluid .no-margin-left{margin-left: 0px;}

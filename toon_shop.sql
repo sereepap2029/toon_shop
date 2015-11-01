@@ -10,10 +10,27 @@ Target Server Type    : MYSQL
 Target Server Version : 50702
 File Encoding         : 65001
 
-Date: 2015-10-25 23:50:35
+Date: 2015-11-01 21:53:40
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+-- ----------------------------
+-- Table structure for `bank`
+-- ----------------------------
+DROP TABLE IF EXISTS `bank`;
+CREATE TABLE `bank` (
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
+  `bank_name` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `account_number` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `account_name` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of bank
+-- ----------------------------
+INSERT INTO `bank` VALUES ('2', 'กสิกรไทย', '631-207-6-045', 'เสรีภาพ คำสี');
+
 -- ----------------------------
 -- Table structure for `category`
 -- ----------------------------
@@ -41,8 +58,9 @@ CREATE TABLE `item_cart` (
   `id` bigint(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `product_id` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `qty` bigint(11) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of item_cart
@@ -67,7 +85,75 @@ CREATE TABLE `member` (
 -- Records of member
 -- ----------------------------
 INSERT INTO `member` VALUES ('sereepap1001', '827ccb0eea8a706c4c34a16891f84e7b', 'Sereepap', 'Khamsee', null, 'sereepap2029@gmail.com', '0804032819');
-INSERT INTO `member` VALUES ('sereepap2029', '827ccb0eea8a706c4c34a16891f84e7b', 'Sereepap', 'Khamsee', '1445788831', 'sereepap2029@hotmail.com', '232123212');
+INSERT INTO `member` VALUES ('sereepap2029', '827ccb0eea8a706c4c34a16891f84e7b', 'Sereepap', 'Khamsee', '1446381438', 'sereepap2029@hotmail.com', '232123212');
+
+-- ----------------------------
+-- Table structure for `member_address`
+-- ----------------------------
+DROP TABLE IF EXISTS `member_address`;
+CREATE TABLE `member_address` (
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
+  `province` varchar(11) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `address` text COLLATE utf8_unicode_ci,
+  `phone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `member_usn` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `zip_code` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of member_address
+-- ----------------------------
+INSERT INTO `member_address` VALUES ('2', 'มหาสารคาม', 'atom', '0804032819', 'sereepap2029', '44130');
+
+-- ----------------------------
+-- Table structure for `member_order`
+-- ----------------------------
+DROP TABLE IF EXISTS `member_order`;
+CREATE TABLE `member_order` (
+  `id` varchar(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `member_usn` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `address` text COLLATE utf8_unicode_ci,
+  `paid` enum('n','r','y') COLLATE utf8_unicode_ci DEFAULT 'n',
+  `send` enum('n','y') COLLATE utf8_unicode_ci DEFAULT 'n',
+  `amount` bigint(11) DEFAULT '0',
+  `time` bigint(11) DEFAULT '0',
+  `bank_id` bigint(11) DEFAULT NULL,
+  `send_order_time` bigint(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of member_order
+-- ----------------------------
+INSERT INTO `member_order` VALUES ('f275f0fd13', 'sereepap2029', 'atom มหาสารคาม 44130', 'r', 'y', '1103000', '1446388381', '2', '1446388415');
+INSERT INTO `member_order` VALUES ('f323f2b132', 'sereepap2029', 'atom มหาสารคาม 44130', 'r', 'y', '62100', '1446382801', '2', '0');
+
+-- ----------------------------
+-- Table structure for `member_order_item`
+-- ----------------------------
+DROP TABLE IF EXISTS `member_order_item`;
+CREATE TABLE `member_order_item` (
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
+  `product_id` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `qty` bigint(11) DEFAULT '1',
+  `order_id` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of member_order_item
+-- ----------------------------
+INSERT INTO `member_order_item` VALUES ('1', '71735b881e', '2', 'f323f2b132');
+INSERT INTO `member_order_item` VALUES ('2', '1f0e3f2388', '10', 'f323f2b132');
+INSERT INTO `member_order_item` VALUES ('3', '568f1b7791', '10', 'f323f2b132');
+INSERT INTO `member_order_item` VALUES ('4', '263014406e', '10', 'f323f2b132');
+INSERT INTO `member_order_item` VALUES ('5', '71735b881e', '1', 'f275f0fd13');
+INSERT INTO `member_order_item` VALUES ('6', '729abe2c90', '1', 'f275f0fd13');
+INSERT INTO `member_order_item` VALUES ('7', '7836ce84d0', '1', 'f275f0fd13');
+INSERT INTO `member_order_item` VALUES ('8', '50968a9240', '1', 'f275f0fd13');
+INSERT INTO `member_order_item` VALUES ('9', '3dc8237d88', '1', 'f275f0fd13');
+INSERT INTO `member_order_item` VALUES ('10', 'ae6aa2f740', '1', 'f275f0fd13');
 
 -- ----------------------------
 -- Table structure for `product`
@@ -146,6 +232,97 @@ INSERT INTO `product_photo` VALUES ('e72ebfd1f0', '251aa00424_e72ebfd1f0.jpg', '
 INSERT INTO `product_photo` VALUES ('ece73a7733', '7836ce84d0_ece73a7733.jpg', '3', '7836ce84d0');
 
 -- ----------------------------
+-- Table structure for `province`
+-- ----------------------------
+DROP TABLE IF EXISTS `province`;
+CREATE TABLE `province` (
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of province
+-- ----------------------------
+INSERT INTO `province` VALUES ('1', 'นครราชสีมา');
+INSERT INTO `province` VALUES ('2', 'เชียงใหม่');
+INSERT INTO `province` VALUES ('3', 'กาญจนบุรี');
+INSERT INTO `province` VALUES ('4', 'ตาก');
+INSERT INTO `province` VALUES ('5', 'อุบลราชธานี');
+INSERT INTO `province` VALUES ('6', 'สุราษฎร์ธานี');
+INSERT INTO `province` VALUES ('7', 'ชัยภูมิ');
+INSERT INTO `province` VALUES ('8', 'แม่ฮ่องสอน');
+INSERT INTO `province` VALUES ('9', 'เพชรบูรณ์');
+INSERT INTO `province` VALUES ('10', 'ลำปาง');
+INSERT INTO `province` VALUES ('11', 'อุดรธานี');
+INSERT INTO `province` VALUES ('12', 'เชียงราย');
+INSERT INTO `province` VALUES ('13', 'น่าน');
+INSERT INTO `province` VALUES ('14', 'เลย');
+INSERT INTO `province` VALUES ('15', 'ขอนแก่น');
+INSERT INTO `province` VALUES ('16', 'พิษณุโลก');
+INSERT INTO `province` VALUES ('17', 'บุรีรัมย์');
+INSERT INTO `province` VALUES ('18', 'นครศรีธรรมราช');
+INSERT INTO `province` VALUES ('19', 'สกลนคร');
+INSERT INTO `province` VALUES ('20', 'นครสวรรค์');
+INSERT INTO `province` VALUES ('21', 'ศรีสะเกษ');
+INSERT INTO `province` VALUES ('22', 'กำแพงเพชร');
+INSERT INTO `province` VALUES ('23', 'ร้อยเอ็ด');
+INSERT INTO `province` VALUES ('24', 'สุรินทร์');
+INSERT INTO `province` VALUES ('25', 'อุตรดิตถ์');
+INSERT INTO `province` VALUES ('26', 'สงขลา');
+INSERT INTO `province` VALUES ('27', 'สระแก้ว');
+INSERT INTO `province` VALUES ('28', 'กาฬสินธุ์');
+INSERT INTO `province` VALUES ('29', 'อุทัยธานี');
+INSERT INTO `province` VALUES ('30', 'สุโขทัย');
+INSERT INTO `province` VALUES ('31', 'แพร่');
+INSERT INTO `province` VALUES ('32', 'ประจวบคีรีขันธ์');
+INSERT INTO `province` VALUES ('33', 'จันทบุรี');
+INSERT INTO `province` VALUES ('34', 'พะเยา');
+INSERT INTO `province` VALUES ('35', 'เพชรบุรี');
+INSERT INTO `province` VALUES ('36', 'ลพบุรี');
+INSERT INTO `province` VALUES ('37', 'ชุมพร');
+INSERT INTO `province` VALUES ('38', 'นครพนม');
+INSERT INTO `province` VALUES ('39', 'สุพรรณบุรี');
+INSERT INTO `province` VALUES ('40', 'ฉะเชิงเทรา');
+INSERT INTO `province` VALUES ('41', 'มหาสารคาม');
+INSERT INTO `province` VALUES ('42', 'ราชบุรี');
+INSERT INTO `province` VALUES ('43', 'ตรัง');
+INSERT INTO `province` VALUES ('44', 'ปราจีนบุรี');
+INSERT INTO `province` VALUES ('45', 'กระบี่');
+INSERT INTO `province` VALUES ('46', 'พิจิตร');
+INSERT INTO `province` VALUES ('47', 'ยะลา');
+INSERT INTO `province` VALUES ('48', 'ลำพูน');
+INSERT INTO `province` VALUES ('49', 'นราธิวาส');
+INSERT INTO `province` VALUES ('50', 'ชลบุรี');
+INSERT INTO `province` VALUES ('51', 'มุกดาหาร');
+INSERT INTO `province` VALUES ('52', 'บึงกาฬ');
+INSERT INTO `province` VALUES ('53', 'พังงา');
+INSERT INTO `province` VALUES ('54', 'ยโสธร');
+INSERT INTO `province` VALUES ('55', 'หนองบัวลำภู');
+INSERT INTO `province` VALUES ('56', 'สระบุรี');
+INSERT INTO `province` VALUES ('57', 'ระยอง');
+INSERT INTO `province` VALUES ('58', 'พัทลุง');
+INSERT INTO `province` VALUES ('59', 'ระนอง');
+INSERT INTO `province` VALUES ('60', 'อำนาจเจริญ');
+INSERT INTO `province` VALUES ('61', 'หนองคาย');
+INSERT INTO `province` VALUES ('62', 'ตราด');
+INSERT INTO `province` VALUES ('63', 'พระนครศรีอยุธยา');
+INSERT INTO `province` VALUES ('64', 'สตูล');
+INSERT INTO `province` VALUES ('65', 'ชัยนาท');
+INSERT INTO `province` VALUES ('66', 'นครปฐม');
+INSERT INTO `province` VALUES ('67', 'นครนายก');
+INSERT INTO `province` VALUES ('68', 'ปัตตานี');
+INSERT INTO `province` VALUES ('69', 'กรุงเทพมหานคร');
+INSERT INTO `province` VALUES ('70', 'ปทุมธานี');
+INSERT INTO `province` VALUES ('71', 'สมุทรปราการ');
+INSERT INTO `province` VALUES ('72', 'อ่างทอง');
+INSERT INTO `province` VALUES ('73', 'สมุทรสาคร');
+INSERT INTO `province` VALUES ('74', 'สิงห์บุรี');
+INSERT INTO `province` VALUES ('75', 'นนทบุรี');
+INSERT INTO `province` VALUES ('76', 'ภูเก็ต');
+INSERT INTO `province` VALUES ('77', 'สมุทรสงคราม');
+
+-- ----------------------------
 -- Table structure for `sub_category`
 -- ----------------------------
 DROP TABLE IF EXISTS `sub_category`;
@@ -202,4 +379,4 @@ CREATE TABLE `user` (
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES ('sadmin', 'sadmin', 'sadmin', 'sadmin', 'sadmin', '1426166350', null, '');
-INSERT INTO `user` VALUES ('sereepap2029', '123456789', 'atom', 'atom', 'sadmin', '1445768009', 'all', null);
+INSERT INTO `user` VALUES ('sereepap2029', '123456789', 'atom', 'atom', 'sadmin', '1446387772', 'all', null);

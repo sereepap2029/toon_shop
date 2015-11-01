@@ -32,7 +32,10 @@ class Member extends CI_Controller {
 		$this->load->model('m_member');		
 		$this->load->model('m_time');
 		$this->load->model('m_cart');
+		$this->load->model('m_province');
 		$this->load->model('m_product');
+		$this->load->model('m_order');
+		$this->load->model('m_bank');
 		$this->user_data=null;
 		$id=$this->uri->segment(2,'');
 		$prem_flag=$id!="register"&&$id!="login"&&$id!="check_valid_reg"&&$id!="additem_to_cart";
@@ -61,6 +64,153 @@ class Member extends CI_Controller {
 		$this->load->view('member/v_profile');
 		$this->load->view('v_footer');
 	}
+	public function address()
+	{
+		$data_head['user_data']=$this->user_data;
+		$data['address_list']=$this->m_member->get_address_list($this->user_data->username);
+		$this->load->view('v_header',$data_head);
+		$this->load->view('member/v_address',$data);
+		$this->load->view('v_footer');
+	}
+	public function del_address()
+	{
+		$ad_id=$this->uri->segment(3,'');
+		$this->m_member->delete_address($ad_id);
+		redirect('member/address');
+	}
+	public function cart()
+	{
+		$data_head['user_data']=$this->user_data;
+		$data['cart_item']=$this->m_cart->get_all_item_by_usn($this->user_data->username);
+		$data['address_list']=$this->m_member->get_address_list($this->user_data->username);
+		$this->load->view('v_header',$data_head);
+		$this->load->view('member/v_cart',$data);
+		$this->load->view('v_footer');
+	}
+	public function address_add()
+	{
+		$ad_id=$this->uri->segment(3,'');
+		if (isset($_POST['address'])) {
+			if ($ad_id!="") {
+				$data = array(
+					'address' => $_POST['address'],
+					'province' => $_POST['province'],
+					'phone' => $_POST['phone'], 
+					'zip_code' => $_POST['zip_code'], 
+					);
+				$this->m_member->update_address($data,$ad_id);
+
+				redirect('member/address');
+			}else{
+				$data = array(
+					'address' => $_POST['address'],
+					'province' => $_POST['province'],
+					'phone' => $_POST['phone'], 
+					'zip_code' => $_POST['zip_code'], 
+					'member_usn' => $this->user_data->username, 
+					);
+				$this->m_member->add_address($data);
+				redirect('member/address');
+			}
+		}else{
+			$data_head['user_data']=$this->user_data;
+			$data['province']=$this->m_province->get_all_province();
+			if ($ad_id!="") {
+				$data['address']=$this->m_member->get_address_by_id($ad_id);
+				$data['edit']="yes";
+			}
+			$this->load->view('v_header',$data_head);
+			$this->load->view('member/v_address_add',$data);
+			$this->load->view('v_footer');
+		}
+		
+	}
+
+	public function make_order()
+	{
+		$order_id=$this->m_order->generate_id();
+		$cart_item=$this->m_cart->get_all_item_by_usn($this->user_data->username);
+		if (count($cart_item)>0) {
+				$data = array(
+					'id' => $order_id,
+					'member_usn' => $this->user_data->username,
+					'address' => $_POST['province'],
+					'send_order_time' => time(),
+					);
+				$this->m_order->add_order($data);	
+		
+			foreach ($cart_item as $key => $value) {
+				$data_item = array(
+						'order_id' => $order_id,
+						'product_id' => $value->product_id,
+						'qty' => $value->qty,
+						);
+				$this->m_order->add_order_item($data_item);
+			}
+			$this->m_cart->delete_item_by_usn($this->user_data->username);
+		}
+		redirect('member/order_list');
+
+	}
+	public function order_view()
+	{
+		$ad_id=$this->uri->segment(3,'');
+		$order=$this->m_order->get_order_by_id($ad_id);
+		if (isset($_POST['address'])) {
+			$data = array();
+			if ($order->paid=="r") {
+				$data = array(
+					'address' => $_POST['address'],
+					);
+			}else if ($order->send=="y") {
+				$data = array(
+					'amount' => $_POST['amount'],
+					'bank_id' => $_POST['bank'],
+					'time' => $this->m_time->datetimepicker_to_unix($_POST['time']),
+					);
+				if ((int)$_POST['amount']>0) {
+					$data['paid']="y";
+				}else{
+					$data['paid']="n";
+				}
+			}else if ($order->send=="y"&&$order->paid=="r") {
+				$data = array();
+			}else{
+				$data = array(
+					'address' => $_POST['address'],
+					'amount' => $_POST['amount'],
+					'bank_id' => $_POST['bank'],
+					'time' => $this->m_time->datetimepicker_to_unix($_POST['time']),
+					);
+				if ((int)$_POST['amount']>0) {
+					$data['paid']="y";
+				}else{
+					$data['paid']="n";
+				}
+			}
+				$this->m_order->update_order($data,$ad_id);
+
+				redirect('member/order_list');			
+		}else{
+			$data_head['user_data']=$this->user_data;
+			$data['order']=$this->m_order->get_order_by_id($ad_id);
+			$data['address_list']=$this->m_member->get_address_list($this->user_data->username);
+			$data['bank']=$this->m_bank->get_all_bank();
+			$this->load->view('v_header',$data_head);
+			$this->load->view('member/v_order_view',$data);
+			$this->load->view('v_footer');
+		}
+		
+	}
+	public function order_list()
+	{
+		$data_head['user_data']=$this->user_data;
+		$data['order_list']=$this->m_order->get_all_order_by_usn($this->user_data->username);
+		$this->load->view('v_header',$data_head);
+		$this->load->view('member/v_order_list',$data);
+		$this->load->view('v_footer');
+	}
+
 	public function login()
 	{
 		if (isset($_POST['username'])) {
@@ -128,6 +278,25 @@ class Member extends CI_Controller {
 	}
 
 	////////////////////////////////////////ajax region /////////////////////////////
+	public function delitem_cart()
+	{	
+		header('Content-Type: application/json');
+		$json = array();
+		$json['flag']="OK";
+			$product=$this->m_cart->delete_item($_POST['item_id']);
+
+		echo json_encode($json);
+	}
+	public function update_qty()
+	{	
+		header('Content-Type: application/json');
+		$json = array();
+		$json['flag']="OK";
+		$data = array('qty' => $_POST['qty'], );
+			$product=$this->m_cart->update_item($data,$_POST['item_id']);
+			
+		echo json_encode($json);
+	}
 	public function additem_to_cart()
 	{	
 		header('Content-Type: application/json');

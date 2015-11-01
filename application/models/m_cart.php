@@ -22,6 +22,7 @@ class M_cart extends CI_Model {
 			$g_list = $query->result();
 			foreach ($g_list as $key => $value) {
 				$g_list[$key]->detail=$this->m_product->get_product_by_id($value->product_id);
+				$g_list[$key]->detail->photo=$this->m_product->get_all_photo($value->product_id);
 			}
 		}
 		return $g_list;

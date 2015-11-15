@@ -71,8 +71,8 @@ $ci->load->model('m_cart');
                                     
                                 }else{
                                     ?>
-                                            <a href="<?echo site_url(" member/login ");?>">Login</a>
-                                            <a href="<?echo site_url(" member/register ");?>">Register</a>
+                                            <a href="<?echo site_url("member/login");?>">Login</a>
+                                            <a href="<?echo site_url("member/register");?>">Register</a>
                                             <?
                                 }
                                 ?>
@@ -107,13 +107,13 @@ $ci->load->model('m_cart');
                     </div>
                     <div class="span12 no-margin-left header-bottom">
                         <ul class="menu-bar">
-                            <li><a href="<?echo site_url();?>" class="<?if(isset($home)){echo " active ";}?>">หน้าแรก</a></li>
-                            <li><a href="<?echo site_url();?>" class="<?if(isset($about)){echo " active ";}?>">เกี่ยวกับเรา</a></li>
-                            <li><a href="<?echo site_url("shop");?>" class="<?if(isset($shop)){echo " active ";}?>">สินค้า</a></li>
-                            <li><a href="<?echo site_url();?>" class="<?if(isset($promo)){echo " active ";}?>">โปรโมชั่น</a></li>
-                            <li><a href="<?echo site_url();?>" class="<?if(isset($howtobuy)){echo " active ";}?>">วิธีการสั่งซื้อ</a></li>
-                            <li><a href="<?echo site_url();?>" class="<?if(isset($itemstat)){echo " active ";}?>">เช็คสถานะสินค้า</a></li>
-                            <li><a href="<?echo site_url();?>" class="<?if(isset($contact)){echo " active ";}?>">ติดต่อเรา</a></li>
+                            <li><a href="<?echo site_url();?>" class="<?if(isset($home)){echo "active";}?>">หน้าแรก</a></li>
+                            <li><a href="<?echo site_url();?>" class="<?if(isset($about)){echo "active";}?>">เกี่ยวกับเรา</a></li>
+                            <li><a href="<?echo site_url("shop");?>" class="<?if(isset($shop)){echo "active ";}?>">สินค้า</a></li>
+                            <li><a href="<?echo site_url();?>" class="<?if(isset($promo)){echo "active";}?>">โปรโมชั่น</a></li>
+                            <li><a href="<?echo site_url();?>" class="<?if(isset($howtobuy)){echo "active";}?>">วิธีการสั่งซื้อ</a></li>
+                            <li><a href="<?echo site_url();?>" class="<?if(isset($itemstat)){echo "active";}?>">เช็คสถานะสินค้า</a></li>
+                            <li><a href="<?echo site_url();?>" class="<?if(isset($contact)){echo "active";}?>">ติดต่อเรา</a></li>
                         </ul>
                     </div>
                 </div>

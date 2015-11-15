@@ -1,4 +1,18 @@
-
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Bootstrap Login Form</title>
+    <meta name="generator" content="Bootply" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="<?echo site_url();?>assets/css/bootstrap.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="<?echo site_url();?>assets/css/styles.css" rel="stylesheet">
+  </head>
+  <body>
 <!--login modal-->
 <div id="loginModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
@@ -23,7 +37,21 @@
             </div>
             <div class="form-group">
               <button class="btn btn-primary btn-lg btn-block">Sign In</button>
-              <!--<span class="pull-right"><a href="#">Register</a></span><span><a href="#">Need help?</a></span>-->
+              <span class="pull-right"><a href="<?echo site_url("member/register");?>">Register</a></span><span><a href="<?echo site_url();?>">กลับหน้าหลัก</a></span>
             </div>
           </form>
       </div>
+      
+      <div class="modal-footer">
+          <div class="col-md-12">
+          <!--<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>-->
+      </div>  
+      </div>
+  </div>
+  </div>
+</div>
+  <!-- script references -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+    <script src="<?echo site_url();?>assets/js/bootstrap.min.js"></script>
+  </body>
+</html>

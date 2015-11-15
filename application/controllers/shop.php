@@ -30,6 +30,7 @@ class Shop extends CI_Controller {
 		}
 		$data['main_cat']=$data['category'][$tar_cat]->id;
 		$data['sub_cat']="all";
+		$data_head['shop']="yes";
 		$data_head['user_data']=$this->user_data;
 		$this->load->view('v_header',$data_head);
 		$this->load->view('v_shop',$data);
@@ -37,6 +38,7 @@ class Shop extends CI_Controller {
 	}
 	public function product_detail()
 	{	
+		$data_head['shop']="yes";
 		$data['category']=$this->m_category->get_all_category(true);
 		$num_cat=count($data['category']);
 		$tar_cat=rand(0,$num_cat-1);

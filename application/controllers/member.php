@@ -228,17 +228,12 @@ class Member extends CI_Controller {
 
 			}else{			
 				$data['error_msg2']='Please login with your username and password';
-				$data_head['user_data']=$this->user_data;
-				$this->load->view('v_header',$data_head);
 				$this->load->view('member/v_login',$data);
-				$this->load->view('v_footer');
 				$this->session->sess_destroy();
 			}			
 		}else{
 			$data_head['user_data']=$this->user_data;
-			$this->load->view('v_header',$data_head);
 			$this->load->view('member/v_login');
-			$this->load->view('v_footer');
 		}
 		
 	}

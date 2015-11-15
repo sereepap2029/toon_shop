@@ -20,7 +20,9 @@ class Main extends CI_Controller {
 	public function index()
 	{
 		$data_head['user_data']=$this->user_data;
+		$data_head['home']="yes";
 		$this->load->view('v_header',$data_head);
+		$this->load->view('v_index');
 		$this->load->view('v_footer');
 	}
 }

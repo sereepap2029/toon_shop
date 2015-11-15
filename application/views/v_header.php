@@ -8,7 +8,7 @@ $ci->load->model('m_cart');
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Admin Home Page</title>
+        <title>BRABUZA</title>
         <!-- Bootstrap -->
         <link href="<?echo site_url();?>bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
         <link href="<?echo site_url();?>bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
@@ -66,6 +66,7 @@ $ci->load->model('m_cart');
                                 if (isset($user_data->firstname)) {
                                     ?>
                                         <a href="<? echo site_url('member');?>"><?echo $user_data->firstname." ".$user_data->lastname;?></a>
+                                        <a href="<? echo site_url('member/logout');?>">Logout</a>
                                         <?
                                     
                                 }else{
@@ -77,7 +78,7 @@ $ci->load->model('m_cart');
                                 ?>
                                 </div>
                                 <a class="header-a-item pull-right" href=""><img src="<?echo site_url();?>images/icon/icon_wishlist.png">Wish List</a>
-                                <a class="header-a-item pull-right" href=""><img src="<?echo site_url();?>images/icon/icon_cart.png">
+                                <a class="header-a-item pull-right" href="<? echo site_url('member/cart');?>"><img src="<?echo site_url();?>images/icon/icon_cart.png">
                                 <?
                                 if (isset($user_data->firstname)) {
                                     $cart_item=$ci->m_cart->get_all_item_by_usn($user_data->username);
@@ -108,7 +109,7 @@ $ci->load->model('m_cart');
                         <ul class="menu-bar">
                             <li><a href="<?echo site_url();?>" class="<?if(isset($home)){echo " active ";}?>">หน้าแรก</a></li>
                             <li><a href="<?echo site_url();?>" class="<?if(isset($about)){echo " active ";}?>">เกี่ยวกับเรา</a></li>
-                            <li><a href="<?echo site_url(" shop ");?>" class="<?if(isset($shop)){echo " active ";}?>">สินค้า</a></li>
+                            <li><a href="<?echo site_url("shop");?>" class="<?if(isset($shop)){echo " active ";}?>">สินค้า</a></li>
                             <li><a href="<?echo site_url();?>" class="<?if(isset($promo)){echo " active ";}?>">โปรโมชั่น</a></li>
                             <li><a href="<?echo site_url();?>" class="<?if(isset($howtobuy)){echo " active ";}?>">วิธีการสั่งซื้อ</a></li>
                             <li><a href="<?echo site_url();?>" class="<?if(isset($itemstat)){echo " active ";}?>">เช็คสถานะสินค้า</a></li>
